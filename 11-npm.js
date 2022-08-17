@@ -3,9 +3,8 @@ Use NPM to install useful things like nodemon, which
 automatically restarts the node application when file 
 changes are detected: 
 $ sudo npm install --location=global nodemon
-https://www.npmjs.com/package/nodemon
 To run a nodejs file using nodemon, replace the word "node" with 
-"nodemon"  
+"nodemon" in the cli
 $ nodemon server.js
 
 Using the package.json file:
@@ -15,10 +14,9 @@ our app depends on them to work. We create it using
 $ npm init
 It also wllows you to configure scripts like git, deploy, build.
 
-The package-lock.json file:
-This keeps track of different dependency versions that we have 
-installed in our project. It is created when we install somthing
-local to this project directory.
+The package-lock.json file keeps track of different dependency 
+versions that we have installed in our project. It is created when 
+we install somthing local to this project.
 
 lodash: lodash is a utility library we'll be using in this tutorial
 to practice using npm https://www.npmjs.com/package/lodash

@@ -1,0 +1,28 @@
+<html lang="en">
+  <!-- Head partial -->
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <!-- Nav partial -->
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="blogs content">
+      <h2>All Blogs (using partials)</h2>
+      <!-- Check if the miniBlogs array variable has items in it (no = sign needed
+        if you're not outputting a variable)  -->
+      <% if(miniBlogs.length) { %>
+      <!-- This is a comment to keep the line break which prettier will delete. 
+        Prettier will delete any line breaks between EJS tags -->
+      <% miniBlogs.forEach(blog => { %>
+      <h3 class="title"><%= blog['title'] %></h3>
+      <p class="snippet"><%= blog['snippet'] %></p>
+      <% }) %>
+      <!--  -->
+      <% } else {%>
+      <p>There are no blogs to display...</p>
+      <% } %>
+    </div>
+
+    <!-- Footer partial -->
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

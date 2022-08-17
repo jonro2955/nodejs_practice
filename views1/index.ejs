@@ -1,0 +1,43 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- use a = sign to use js variables available in this template-->
+    <title>Blog Ninja | <%= title %></title>
+  </head>
+  <body>
+    <!-- Using ejs tags to create variables -->
+    <% const name = 'mario' %>
+
+    <nav>
+      <div class="site-title">
+        <p><%= name %></p>
+        <a href="/"><h1>Blog Ninja</h1></a>
+        <p>Net Ninja Site</p>
+      </div>
+      <ul>
+        <li><a href="/">Blogs</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/blogs/create">New Blog</a></li>
+      </ul>
+    </nav>
+
+    <div class="blogs content">
+      <h2>All Blogs</h2>
+      <!-- Check if the miniBlogs array variable has items in it 
+        (= sign is only used if you're outputting a variable)  -->
+      <% if(miniBlogs.length) { %>
+      <!-- comments are to keep the line breaks which 
+        prettier will delete between EJS tags -->
+      <% miniBlogs.forEach(blog => { %>
+      <h3 class="title"><%= blog['title'] %></h3>
+      <p class="snippet"><%= blog['snippet'] %></p>
+      <% }) %>
+      <!--  -->
+      <% } else {%>
+      <p>There are no blogs to display...</p>
+      <% } %>
+    </div>
+  </body>
+</html>
