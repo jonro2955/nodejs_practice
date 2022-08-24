@@ -1,12 +1,17 @@
-/* For this lesson, we are going to eliminate repeated code in our 
-ejs templates by using partial templates. 
-We created a new ejs views folder called /views2 and  
-a new folder inside it called /partials. Partials allow you to 
-change many pages by changing the template at a single location. 
-Then we replaced the repeated code with include() statements. 
-For example: <%- include('./partials/head.ejs') %>
+/* This ia a continuation of the view engines lesson.
+This is basically the same as 13-viewEngine.js, the 
+only difference is that we're using /views2  
+as our view folder.
 
-We also placed all the styling in the head.ejs template
+We created a new views folder called /views2 with the same 
+ejs templates for all of our pages. And we also create  
+a new inner folder called /partials with partial ejs templates 
+inside. Partials are templates that
+are inserted into other templates, allowing you to 
+change many pages with such insertions by changing the template at 
+a single location. We inserted these partials inside our page templates.
+
+We also placed all the styling in the head.ejs template.
 */
 
 const app = require("express")();

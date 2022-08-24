@@ -1,3 +1,8 @@
+/* Instead of 2 lines
+const express = require("express");
+const app = express();
+just use:
+*/
 const app = require("express")();
 /* https://www.youtube.com/watch?v=yXEesONd_54&list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU&index=7&ab_channel=TheNetNinja
 
@@ -16,31 +21,20 @@ An express app object has many attributes including one called
 package, in this case, "ejs". */
 app.set("view engine", "ejs");
 
-/* By defaut, express will look inside /views folder for
-templates. But if you want to specify an alternate folder
-like /views1, do the following and put .ejs files inside */
+/* By defaut, express will look inside a folder called /views for
+templates. But if you want to specify an alternate folder name
+like /views1, use the set() function: */
 app.set("views", "views1");
-
 app.listen(3000);
-
 app.get("/", (req, res) => {
-
-  /* create a simple array of 'mini blog' objects to pass to the ejs template */
+  /* create a simple array of 'mini blog' objects to pass to the ejs template
+  "index.ejs". */
   const miniBlogs = [
     { title: "Yoshi finds eggs", snippet: "Lorem ipsum dolor sit amet consectetur" },
     { title: "Mario finds stars", snippet: "Lorem ipsum dolor sit amet consectetur" },
     { title: "How to defeat bowser", snippet: "Lorem ipsum dolor sit amet consectetur" },
   ];
-
-  /* EJS templates are processed by NodeJS on the server, which converts it
-  into html and sends it to the browser
-  To send an ejs file, use res.render() instead of 
-  res.sendFile(). The res.render() method has 3 parameters:
-  (view [, local variables] [, callback]).
-  Express will look inside the earlier specified /views1 folder 
-  for the view parameter.
-  The optionally provided local variables will be available inside 
-  the index.ejs view template. */
+  /* Send "index.ejs" template with these variables when a request for "/" comes in */
   res.render("index.ejs", { title: "Home", miniBlogs: miniBlogs });
 });
 app.get("/about", (req, res) => {
@@ -52,3 +46,13 @@ app.get("/blogs/create", (req, res) => {
 app.use((req, res) => {
   res.status(404).render("404.ejs", { title: "404" });
 });
+
+/* EJS templates are processed by Node on the server, which converts it
+  into html and sends it to the browser
+  To send an ejs file, use res.render() instead of 
+  res.sendFile(). The res.render() method has 3 parameters:
+  (view [, local variables] [, callback]).
+  Express will look inside the specified /views1 folder 
+  for the view parameter.
+  The optionally provided local variables will be available inside 
+  the index.ejs view template. */

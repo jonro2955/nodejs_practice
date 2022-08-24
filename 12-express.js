@@ -1,13 +1,19 @@
 /* Express is an NPM package. It is a framework that condenses verbose 
 nodejs into shorter statements to make it easier to read and write. 
 $ npm install express
+
+Now instead of requiring http, we can require express and do the samestuff
 */
 const express = require("express");
 
-/* Creating an express app */
+/* Creating an express app. This is our server now*/
 const app = express();
 
-/* listen for requests on port 3000 */
+/* listen for requests on port 3000. The express object is our server now, 
+instead of creating an http object and then doing 
+const server = http.createServer(...) and then doing server.listen(...)
+
+*/
 app.listen(3000);
 
 /* Handling get requests on express object
