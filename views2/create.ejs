@@ -6,7 +6,8 @@
     <%- include('./partials/nav.ejs') %>
 
     <div class="create-blog content">
-      <form>
+      <!-- To enable form submissions to the mongodb server, add 'action' and 'method' attributes to the form element and 'name' attributes to all the input elements -->
+      <form action="/blogs" method="POST">
         <label for="title">Blog title:</label>
         <input type="text" id="title" name="title" required />
         <label for="snippet">Blog snippet:</label>

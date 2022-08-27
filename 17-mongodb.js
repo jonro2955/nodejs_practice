@@ -1,4 +1,6 @@
-/* https://www.youtube.com/watch?v=bxsemcrY4gQ&list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU&index=9&ab_channel=TheNetNinja 30:45
+/* Tut #9: MongoDB
+
+https://www.youtube.com/watch?v=bxsemcrY4gQ&list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU&index=9&ab_channel=TheNetNinja 30:45
 
 https://account.mongodb.com/account/login/
 
@@ -17,13 +19,15 @@ We use Mongoose to make mongoDB code less verbose: npm i mongoose
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
+/* express.static() is a built-in middleware that serves static files and is based on serve-static. We use it to load CSS files from /public */
+app.use(express.static("public"));
 
-/* Import mongoose and connect*/
+/* Import mongoose and connect using the connection string from the cloud console*/
 const mongoose = require("mongoose");
 const dbURI =
   "mongodb+srv://netNinja:test1234@nodeninja.crrgmpu.mongodb.net/nodeNinja?retryWrites=true&w=majority";
 mongoose
-  .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(dbURI)
   .then((result) => {
     console.log("Connected to DB");
     /* Only listen for requests after connecting to db */
@@ -34,16 +38,17 @@ mongoose
   });
 
 /*  app.listen(3000); was moved from here to inside the .then() promise. 
-
-We then create a folder called /models where we create "schemas" for our blogs. A schema is what defines the "structure" of a document in a collection. See the blog.js file inside /models. This blog.js file the schema for our blogs.
+We then created a folder called /models where we create "schemas" for our blogs. A schema is what defines the "structure" of a document in a collection. The file /models/blog.js defines the schema for our blogs.
  */
 
 app.set("view engine", "ejs");
 app.set("views", "views2");
 app.use(morgan("dev"));
 
-/* mongoose and mongo sandbox routes. This makes it so that each time you log onto http://localhost:3000/add-blog, a new blog object as specified will be created in mongodb with different timestamps and the browser will get back the corresponding json object */
+/* Import the blog schema */
 const Blog = require("./models/blog");
+
+/* On loading the /add-blog route, save a new blog object as specified below in mongodb with a new timestamp and send the corresponding json over to the browser */
 app.get("/add-blog", (req, res) => {
   const blog = new Blog({
     title: "simple blog 2",
@@ -60,7 +65,7 @@ app.get("/add-blog", (req, res) => {
     });
 });
 
-/* Get all blogs using Blog.find() on the Blog itself, not on a new instance of it*/
+/* Get all blogs using Blog.find() on the Blog schema object itself (not on a new instance of it). Sends only the json data to the browser.*/
 app.get("/all-blogs", (req, res) => {
   Blog.find()
     .then((result) => {
@@ -71,7 +76,19 @@ app.get("/all-blogs", (req, res) => {
     });
 });
 
-/* Finding a blog using Blog.findById()*/
+/* Load the index HTML page template populated with the blogs using res.render("index", {... ejs template values...}) */
+app.get("/sorted-blogs", (req, res) => {
+  Blog.find()
+    .sort({ createdAt: 1 }) // createdAt sorts by timestamps. 1 means ascending, -1 means descending
+    .then((result) => {
+      res.render("index", { title: "All Blogs", miniBlogs: result });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+/* Get a blog by id using Blog.findById(). Sends the json data to the browser.*/
 app.get("/single-blog", (req, res) => {
   Blog.findById("630726608bea3047bc761ba6")
     .then((result) => {
@@ -82,7 +99,11 @@ app.get("/single-blog", (req, res) => {
     });
 });
 
-app.use(express.static("public"));
+/* Redirect */
+app.get("/blogs", (req, res) => {
+  res.redirect("/sorted-blogs");
+});
+
 app.get("/", (req, res) => {
   const miniBlogs = [
     { title: "Yoshi finds eggs", snippet: "Lorem ipsum dolor sit amet consectetur" },
