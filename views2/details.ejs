@@ -1,0 +1,19 @@
+<html lang="en">
+  <!-- Head partial -->
+  <%- include('./partials/head.ejs') %>
+  <body>
+    <!-- Nav partial -->
+    <%- include('./partials/nav.ejs') %>
+
+    <div class="details content">
+      <h2><%= blog.title %></h2>
+      <div class="content">
+        <p><%= blog.body %></p>
+      </div>
+      <a class="delete" data-doc="<%= blog._id %>">Delete</a>
+    </div>
+
+    <!-- Footer partial -->
+    <%- include('./partials/footer.ejs') %>
+  </body>
+</html>

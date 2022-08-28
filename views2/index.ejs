@@ -13,8 +13,11 @@
       <!-- This is a comment to keep the line break which prettier will delete. 
         Prettier will delete any line breaks between EJS tags -->
       <% miniBlogs.forEach(blog => { %>
-      <h3 class="title"><%= blog['title'] %></h3>
-      <p class="snippet"><%= blog['snippet'] %></p>
+      <!-- 18.js: the anchor wrap was added in 18.js to navigate to the individual blog page using the blog's id-->
+      <a href="/blogs/<%= blog._id%>">
+        <h3 class="title"><%= blog['title'] %></h3>
+        <p class="snippet"><%= blog['snippet'] %></p>
+      </a>
       <% }) %>
       <!--  -->
       <% } else {%>
