@@ -1,6 +1,6 @@
 /* Tut #10: Get, Post & Delete Requests
 
-https://www.youtube.com/watch?v=VVGgacjzc2Y&list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU&index=10&ab_channel=TheNetNinja 11:55
+https://www.youtube.com/watch?v=VVGgacjzc2Y&list=PL4cUxeGkcC9jsz4LDYc6kv3ymONOKxwBU&index=10&ab_channel=TheNetNinja 20:13
 
 We've been using only app.get() requests so far (other than app.set() and app.use()). Now we'll use the other 3 main server request types:  post, delete, and put (update)
 
@@ -45,13 +45,25 @@ app.post("/blogs", (req, res) => {
     });
 });
 
-/* Then we add anchor tags around each blog preview (title and snippet elements) in index.ejs. Next, use a colon operator at the end of the route to extract the value of the text at that part of the url. This value can be obtained from the request object.*/
+/* Get single blog using a unique id. In /views2/index.ejs, we added anchor <a href="/blogs/<%= blog._id%>"> tags around each blog preview title and snippet elements specifically for this getter. Clicking this will create a request for a url with an id at the end of it. Next, a colon operator at the end of the below getter route "/blogs/:id" will extract the text value of the id part of the url. This can be obtained from the request object req.params.id*/
 app.get("/blogs/:id", (req, res) => {
   const id = req.params.id;
   console.log(id);
   Blog.findById(id)
     .then((result) => {
       res.render("details", { blog: result, title: "Blog Details" });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+/* Delete request. In /views2/details.ejs, we added a delete link <a class="delete" data-doc="<%= blog._id %>">Delete</a> for each details page that users can click. It has a data-doc attribute that returns the doc's id in the req object like in the above getter. Use Blog.findByIdAndDelete(id) then redirect to /blogs */
+app.delete("/blogs/:id", (req, res) => {
+  const id = req.params.id;
+  Blog.findByIdAndDelete(id)
+    .then((result) => {
+      res.json({ redirect: "/blogs" });
     })
     .catch((err) => {
       console.log(err);
