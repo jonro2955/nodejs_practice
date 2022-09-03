@@ -72,7 +72,7 @@ app.get("/json-blogs", (req, res) => {
     });
 });
 /* Now just use the imported blogRoutes here like this to apply all the routes on the /routes/blogRoutes.js file to the app object. But additionally, if we scope it out to '/blogs', then those routes will only apply when the url ends with '/blogs'. In this case, we need to remove the "blogs" part from each of the route strings in /route/blogRoutes.js*/
-app.use('/blogs',blogRoutes);
+app.use("/blogs", blogRoutes);
 app.use((req, res) => {
   res.status(404).render("404.ejs", { title: "404" });
 });
