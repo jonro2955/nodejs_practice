@@ -58,11 +58,12 @@ app.get("/blogs/:id", (req, res) => {
     });
 });
 
-/* Delete request. In /views2/details.ejs, we added a delete link <a class="delete" data-doc="<%= blog._id %>">Delete</a> for each details page that users can click. It has a data-doc attribute that returns the doc's id in the req object like in the above getter. Use Blog.findByIdAndDelete(id) then redirect to /blogs */
+/* Delete request. In /views2/details.ejs template page, we added a delete button <a class="delete" data-doc="<%= blog._id %>">Delete</a> that users can click. It has a data-doc attribute that returns the doc's id in the req object like in the above getter. We added a click listener to it that runs an ajax fetch callback to activate this deleter: */
 app.delete("/blogs/:id", (req, res) => {
   const id = req.params.id;
   Blog.findByIdAndDelete(id)
     .then((result) => {
+      /* We delete the blog by id and send back a json object like this { redirect: "/blogs" } to the browser. We can't use res.redirect() here since the delete action was activated by a front end ajax request and not a server request. Instead, we send this { redirect: "/blogs" } to the browser and then have the front end ajax script run a  redirect to the blogs page using window.location.href = data.redirect. See /views2/details.ejs */
       res.json({ redirect: "/blogs" });
     })
     .catch((err) => {
